@@ -1,0 +1,32 @@
+{
+  "name": "csv-json",
+  "version": "0.0.0",
+  "description": "converting csv files to json files",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "dependencies": {
+    "chai": "^3.5.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.5.3"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jacobbendicksen/csv-json.git"
+  },
+  "keywords": [
+    "npm"
+  ],
+  "author": "Jacob Bendicksen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jacobbendicksen/csv-json/issues"
+  },
+  "homepage": "https://github.com/jacobbendicksen/csv-json#readme"
+}
