@@ -8,7 +8,9 @@
     "test": "test"
   },
   "dependencies": {
-    "chai": "^3.5.0"
+    "chai": "^3.5.0",
+    "csvtojson": "^1.0.0",
+    "prompt": "^1.0.0"
   },
   "devDependencies": {
     "mocha": "^2.5.3"
