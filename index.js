@@ -1,7 +1,19 @@
+"use strict";
+
 var Converter = require("csvtojson").Converter;
 var prompt = require('prompt');
+var path = require('path');
+var express = require('express');
+var app = new express();
+var router = express.Router();
+var multer = require('multer');
+var bodyParser = require('body-parser');
+
+app.set('views', path.join(__dirname, 'views'));
 
 var source = "";
+var file;
+var whichInterface = "web";
 
 var converter = new Converter({});
 prompt.start();
@@ -20,6 +32,17 @@ converter.transform=function(json,row,index){
 		    json.winery = json.Vineyard;
 		    json.drinkBy = json.EndConsume;
 
+		    json.abv = "";
+		    json.img_path = "";
+		    json.external_img_path = "";
+		    json.ratingValue = "";
+		    json.ratingAuthor = "";
+		    json.ratingReview = "";
+		    json.ready = false;
+		    json.special = false;
+		    json.recentlyAdded = false;
+		    json.foodPairing = "";
+
 		    delete json.WS;
 		    delete json.WSWeb;
 		    delete json.Color;
@@ -33,20 +56,37 @@ converter.transform=function(json,row,index){
 		 	delete json.Vineyard;
 		 	delete json.EndConsume;
 		 	break;
-		 case "survey":
-		 	break;
-	}//add blank keys, check survey first
-    
-
+	}
 };
 
-prompt.get(['filename', 'destination', 'source'], function (err, result) {
-	source = result.source;
+switch(whichInterface){
+	case "cli":
+		prompt.get(['filename', 'source'], function (err, result) {
+			source = result.source;
+			file = result.filename;
 
-    converter.on("end_parsed", function (jsonArray) {
-   		console.log(jsonArray); //here is your result jsonarray
-   		
-	});
-	require("fs").createReadStream(result.filename).pipe(converter);//CHANGE BACK TO RESULT.FILENAME
- });
+	   		converter.on("end_parsed", function (jsonArray) {
+	   			console.log(jsonArray);
+			});
+			require("fs").createReadStream(file).pipe(converter);
+ 		});
+ 		break;
+ 	case "web":
+ 		app.get('/',function(req,res){
+			res.sendFile(path.join(__dirname+'/index.html'));		
+		});
 
+		var uploader = multer({
+			dest: __dirname + '../uploads/',
+		});
+
+		router.post('/upload', uploader, function(req, res) {
+			console.log("uploading");
+		});
+
+		app.listen(3000);
+ 		// file = /uploads/
+
+
+ 		break;
+}
