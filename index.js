@@ -4,10 +4,12 @@ var Converter = require("csvtojson").Converter;
 var prompt = require('prompt');
 var path = require('path');
 var express = require('express');
-var app = new express();
+var app = express();
 var router = express.Router();
 var multer = require('multer');
+var upload = multer({dest: __dirname + '../uploads/'});
 var bodyParser = require('body-parser');
+var fs = require('fs');
 
 app.set('views', path.join(__dirname, 'views'));
 
@@ -68,20 +70,24 @@ switch (whichInterface) {
             converter.on("end_parsed", function(jsonArray) {
                 console.log(jsonArray);
             });
-            require("fs").createReadStream(file).pipe(converter);
+            fs.createReadStream(file).pipe(converter);
         });
         break;
     case "web":
         app.get('/', function(req, res) {
             res.sendFile(path.join(__dirname + '/index.html'));
+						console.log("loaded index.html");
         });
 
-        var uploader = multer({
-            dest: __dirname + '../uploads/',
-        });
+        app.post('/upload', upload.single('file'), function(req, res) {
+            //console.log(req.file);
+						console.log("File uploaded...");
+						file = 'uploads/'+ req.file.filename;
+						converter.on("end_parsed", function(jsonArray) {
+								console.log(jsonArray);
+						});
 
-        router.post('/upload', function(req, res) {
-            console.log("uploading");
+						fs.createReadStream(file).pipe(converter);
         });
 
         app.listen(3000);
