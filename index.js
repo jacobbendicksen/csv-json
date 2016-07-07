@@ -1,24 +1,31 @@
 "use strict";
 
 var Converter = require("csvtojson").Converter;
+var converter = new Converter({});
 var prompt = require('prompt');
+prompt.start();
+var fs = require('fs');
 var path = require('path');
 var express = require('express');
 var app = express();
 var router = express.Router();
-var multer = require('multer');
-var upload = multer({dest: __dirname + '../uploads/'});
 var bodyParser = require('body-parser');
-var fs = require('fs');
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+  destination: __dirname + '/uploads/', //consider removing __dirname
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+    }
+})
+
+var upload = multer({ storage: storage })
 
 app.set('views', path.join(__dirname, 'views'));
 
 var source = "";
 var file;
 var whichInterface = "web";
-
-var converter = new Converter({});
-prompt.start();
 
 converter.transform = function(json, row, index) {
     switch (source) {
@@ -76,21 +83,22 @@ switch (whichInterface) {
     case "web":
         app.get('/', function(req, res) {
             res.sendFile(path.join(__dirname + '/index.html'));
-						console.log("loaded index.html");
+						console.log("\nloaded index.html\n");
         });
+        source = "cellartracker";
+        app.post('/upload', upload.single('file'), function(req, res, next) {
+						console.log("\nFile uploaded.\n");
+						console.log("File:\n" + req.file);
+						file = req.file.path;
+						console.log("\nPath:\n" + file);
 
-        app.post('/upload', upload.single('file'), function(req, res) {
-            //console.log(req.file);
-						console.log("File uploaded...");
-						file = 'uploads/'+ req.file.filename;
 						converter.on("end_parsed", function(jsonArray) {
-								console.log(jsonArray);
+								console.log("\nJSON contents:\n" + JSON.stringify(jsonArray));
 						});
 
 						fs.createReadStream(file).pipe(converter);
+						res.status(204).end();
         });
-
         app.listen(3000);
-        // file = /uploads/
         break;
 }
