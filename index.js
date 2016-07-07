@@ -25,47 +25,88 @@ app.set('views', path.join(__dirname, 'views'));
 
 var source = "";
 var file;
-var whichInterface = "web";
+var whichInterface = "cli";
+
+var color = "";
+var price = "";
+var name = "";
+var size = "";
+var vintage = "";
+var varietal = "";
+var quantity = "";
+var region = "";
+var winery = "";
+var drinkBy = "";
+var abv = "";
+var img_path = "";
+var external_img_path = "";
+var ratingValue = "";
+var ratingAuthor = "";
+var ratingReview = "";
+var ready = false;
+var special = false;
+var recentlyAdded = false;
+var foodPairing = "";
 
 converter.transform = function(json, row, index) {
-    switch (source) {
-        case "cellartracker":
-            json.color = json.Color;
-            json.price = json.Price;
-            json.name = json.Wine;
-            json.size = json.Size;
-            json.vintage = json.Vintage;
-            json.varietal = json.Varietal;
-            json.bottles = json.Quantity;
-            json.region = json.Region;
-            json.winery = json.Vineyard;
-            json.drinkBy = json.EndConsume;
-
-            json.abv = "";
-            json.img_path = "";
-            json.external_img_path = "";
-            json.ratingValue = "";
-            json.ratingAuthor = "";
-            json.ratingReview = "";
-            json.ready = false;
-            json.special = false;
-            json.recentlyAdded = false;
-            json.foodPairing = "";
-
-            delete json.WS;
-            delete json.WSWeb;
-            delete json.Color;
-            delete json.Price;
-            delete json.Wine;
-            delete json.Size;
-            delete json.Vintage;
-            delete json.Varietal;
-            delete json.Quantity;
-            delete json.Region;
-            delete json.Vineyard;
-            delete json.EndConsume;
-            break;
+    switch(source){
+      case "cellartracker":
+        color = "Color";
+        price = "Price";
+        name = "Wine";
+        size = "Size";
+        vintage = "Vintage";
+        varietal = "Varietal";
+        quantity = "Quantity";
+        region = "Region";
+        winery = "Vineyard";
+        drinkBy = "EndConsume";
+        delete json.WS;
+        delete json.WSWeb;
+        break;
     }
+
+    json.color = json[color];
+    json.price = json[price];
+    json.name = json[name];
+    json.size = json[size];
+    json.vintage = json[vintage];
+    json.varietal = json[varietal];
+    json.bottles = json[quantity];
+    json.region = json[region];
+    json.winery = json[winery];
+    json.drinkBy = json[drinkBy];
+    json.abv = json[abv];
+    json.img_path = json[img_path];
+    json.external_img_path = json[external_img_path];
+    json.ratingValue = json[ratingValue];
+    json.ratingAuthor = json[ratingAuthor];
+    json.ratingReview = json[ratingReview];
+    json.ready = json[ready];
+    json.special = json[special];
+    json.recentlyAdded = json[recentlyAdded];
+    json.foodPairing = json[foodPairing];
+
+    delete json[color];
+    delete json[price];
+    delete json[name];
+    delete json[size];
+    delete json[vintage];
+    delete json[varietal];
+    delete json[quantity];
+    delete json[region];
+    delete json[winery];
+    delete json[drinkBy];
+    delete json[abv];
+    delete json[img_path];
+    delete json[external_img_path];
+    delete json[ratingValue];
+    delete json[ratingAuthor];
+    delete json[ratingReview];
+    delete json[ready];
+    delete json[special];
+    delete json[recentlyAdded];
+    delete json[foodPairing];
 };
 
 switch (whichInterface) {
@@ -73,11 +114,46 @@ switch (whichInterface) {
         prompt.get(['filename', 'source'], function(err, result) {
             source = result.source;
             file = result.filename;
-
+            
+            if (source != "cellartracker"){
+              prompt.get(['color','price','name','size','vintage','varietal','quantity','region','winery','drink by','abv','image path','external image path','rating value','rating author','rating review','ready','special','recently added','food pairing','readytoconvert'], function(err,result){
+                color = result.color;
+                price = result.price;
+                name = result.name;
+                size = result.size;
+                vintage = result.vintage;
+                varietal = result.varietal;
+                quantity = result.quantity;
+                region = result.region;
+                winery = result.winery;
+                drinkBy = result['drink by'];
+                abv = result.abv;
+                img_path = result['image path'];
+                external_img_path = result['external image path'];
+                ratingValue = result['rating value'];
+                ratingAuthor = result['rating author'];
+                ratingReview = result['rating review'];
+                if (result.ready == "true" || result.ready == "t" || result.ready == "y" || result.ready == "yes"){
+                  ready = true;
+                }
+                if (result.special == "true" || result.special == "t" || result.special == "y" || result.special == "yes"){
+                  special = true;
+                }
+                if (result['recently added'] == "true" || result['recently added']  == "t" || result['recently added']  == "y" || result['recently added']  == "yes"){
+                  recentlyAdded = true;
+                }
+                foodPairing = result['food pairing'];
+                if (result.readytoconvert == "yes"){
+                  fs.createReadStream(file).pipe(converter);
+                }
+              })
+            }
+            else {
+              fs.createReadStream(file).pipe(converter);
+            }
             converter.on("end_parsed", function(jsonArray) {
                 console.log(jsonArray);
             });
-            fs.createReadStream(file).pipe(converter);
         });
         break;
     case "web":
