@@ -88,7 +88,6 @@ switch (whichInterface) {
         source = "cellartracker";
         app.post('/upload', upload.single('file'), function(req, res, next) {
 						console.log("\nFile uploaded.");
-						//console.log("File:\n" + req.file);
 						file = req.file.path;
 						console.log("\nPath:\n" + file);
 
