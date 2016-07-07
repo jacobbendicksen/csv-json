@@ -108,6 +108,6 @@ switch (whichInterface) {
 					res.download(__dirname + '/files/download', 'wineJSON.json');
 					console.log("\nDownload completed.")
 				});
-        app.listen(process.env.port || 5000);
+        app.listen(process.env.PORT || 5000);
         break;
 }
