@@ -87,23 +87,28 @@ switch (whichInterface) {
         });
         source = "cellartracker";
         app.post('/upload', upload.single('file'), function(req, res, next) {
-						console.log("\nFile uploaded.\n");
-						console.log("File:\n" + req.file);
+						console.log("\nFile uploaded.");
+						//console.log("File:\n" + req.file);
 						file = req.file.path;
 						console.log("\nPath:\n" + file);
 
 						converter.on("end_parsed", function(jsonArray) {
-								fs.writeFile("download.txt","test", function(err){
+								fs.writeFile("files/download",JSON.stringify(jsonArray), function(err){
 									if(err) {
 										console.log(err);
 									};
 								});
-								console.log("\nJSON contents:\n" + JSON.stringify(jsonArray));
+								//console.log("\nJSON contents:\n" + JSON.stringify(jsonArray));
 						});
 
 						fs.createReadStream(file).pipe(converter);
 						res.status(204).end();
         });
+				app.post('/download', function(req,res){
+					console.log("\nDownload requested.");
+					res.download(__dirname + '/files/download', 'wineJSON.json');
+					console.log("\nDownload completed.")
+				});
         app.listen(3000);
         break;
 }
