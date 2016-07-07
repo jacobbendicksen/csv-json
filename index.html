@@ -3,20 +3,27 @@
   <h1>CSV to JSON converter for Sommely</h1>
 
   <div class = "row">
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-      <h3 class = "text-center">Select a file to upload:</h3>
-      <label class="btn btn-default btn-file col-md-3 button-center">
-        Browse <input type="file" style="display: none;" name = "file">
-      </label>
-      <br>
-      <br>
-      <input type="submit" value="Upload File" class = "btn btn-primary col-md-3 button-center">
-    </form>
+    <div class = "col-md-12 text-center">
+      <div class = "btn-group">
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+          <h3>Select a file to upload:</h3>
+          <label class="btn btn-default center-block">
+            Browse <input type="file" style="display: none;" name = "file">
+          </label>
+          <label class = "btn btn-default center-block" >
+            Convert <input type="submit" style="display:none">
+          </label>
+          <!-- <input type="submit" value="Convert" class = "btn btn-primary center-block"> -->
+        </form>
+      </div>
+    </div>
   </div>
   <div class = "row">
-    <form method="post" action="/download">
-      <input type="submit" value="Download File" class = "btn btn-primary col-md-3 button-center">
-    </form>
+    <div class = "col-md-12 text-center">
+      <form method="post" action="/download">
+        <input type="submit" value="Download" class = "btn btn-primary button-center">
+      </form>
+    </div>
   </div>
 </div>
 
