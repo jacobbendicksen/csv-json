@@ -13,7 +13,7 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 
 var storage = multer.diskStorage({
-  destination: __dirname + '/uploads/', //consider removing __dirname
+  destination: __dirname + '/uploads/',
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));
     }
@@ -93,6 +93,11 @@ switch (whichInterface) {
 						console.log("\nPath:\n" + file);
 
 						converter.on("end_parsed", function(jsonArray) {
+								fs.writeFile("download.txt","test", function(err){
+									if(err) {
+										console.log(err);
+									};
+								});
 								console.log("\nJSON contents:\n" + JSON.stringify(jsonArray));
 						});
 
