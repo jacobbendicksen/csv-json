@@ -12,11 +12,9 @@
     "chai": "^3.5.0",
     "csvtojson": "^1.0.0",
     "express": "^4.14.0",
+    "multer": "^1.1.0",
     "prompt": "^1.0.0",
     "request": "^2.72.0"
-  },
-  "devDependencies": {
-    "mocha": "^2.5.3"
   },
   "scripts": {
     "test": "make test"
