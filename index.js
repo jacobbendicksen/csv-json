@@ -25,7 +25,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 var source = "";
 var file;
-var whichInterface = "cli";
+var whichInterface = "web";
 
 var color = "";
 var price = "";
@@ -61,8 +61,6 @@ converter.transform = function(json, row, index) {
         region = "Region";
         winery = "Vineyard";
         drinkBy = "EndConsume";
-        delete json.WS;
-        delete json.WSWeb;
         break;
     }
 
@@ -107,6 +105,8 @@ converter.transform = function(json, row, index) {
     delete json[special];
     delete json[recentlyAdded];
     delete json[foodPairing];
+    delete json.WS;
+    delete json.WSWeb;
 };
 
 switch (whichInterface) {
@@ -114,7 +114,7 @@ switch (whichInterface) {
         prompt.get(['filename', 'source'], function(err, result) {
             source = result.source;
             file = result.filename;
-            
+
             if (source != "cellartracker"){
               prompt.get(['color','price','name','size','vintage','varietal','quantity','region','winery','drink by','abv','image path','external image path','rating value','rating author','rating review','ready','special','recently added','food pairing','readytoconvert'], function(err,result){
                 color = result.color;
@@ -161,11 +161,71 @@ switch (whichInterface) {
             res.sendFile(path.join(__dirname + '/index.html'));
 						console.log("\nloaded index.html\n");
         });
-        source = "cellartracker";
+        //source = "cellartracker";
         app.post('/upload', upload.single('file'), function(req, res, next) {
 						console.log("\nFile uploaded.");
 						file = req.file.path;
 						console.log("\nPath:\n" + file);
+            if (req.body.color != ""){
+              color = req.body.color;
+            }
+            if (req.body.price != ""){
+              price = req.body.price;
+            }
+            if (req.body.name != ""){
+              name = req.body.name;
+            }
+            if (req.body.size != ""){
+              size = req.body.size;
+            }
+            if (req.body.vintage != ""){
+              vintage = req.body.vintage;
+            }
+            if (req.body.varietal != ""){
+              varietal = req.body.varietal;
+            }
+            if (req.body.quantity != ""){
+              quantity = req.body.quantity;
+            }
+            if (req.body.region != ""){
+              region = req.body.region;
+            }
+            if (req.body.winery != ""){
+              winery = req.body.winery;
+            }
+            if (req.body.drinkBy != ""){
+              drinkBy = req.body.drinkBy;
+            }
+            if (req.body.abv != ""){
+              abv = req.body.abv;
+            }
+            if (req.body.img_path != ""){
+              img_path = req.body.img_path;
+            }
+            if (req.body.external_img_path != ""){
+              external_img_path = req.body.external_img_path;
+            }
+            if (req.body.ratingValue != ""){
+              ratingValue = req.body.ratingValue;
+            }
+            if (req.body.ratingAuthor != ""){
+              ratingAuthor = req.body.ratingAuthor;
+            }
+            if (req.body.ratingReview != ""){
+              ratingReview = req.body.ratingReview;
+            }
+            if (req.body.ready != ""){
+              ready = req.body.ready;
+            }
+            if (req.body.special != ""){
+              special = req.body.special;
+            }
+            if (req.body.recentlyAdded != ""){
+              recentlyAdded = req.body.recentlyAdded;
+            }
+            if (req.body.foodPairing != ""){
+              foodPairing = req.body.foodPairing;
+            }
 
 						converter.on("end_parsed", function(jsonArray) {
 								fs.writeFile("files/download",JSON.stringify(jsonArray), function(err){
