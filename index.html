@@ -1,5 +1,16 @@
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
 <div class = "container-fluid text-center">
+  <script>
+    function unhide(clickedButton, divID) {
+      var item = document.getElementById(divID);
+      if (item) {
+        if(item.className=='hidden'){
+          item.className = 'unhidden' ;
+        }else{
+          item.className = 'hidden';
+        }
+      }}
+  </script>
   <h1>CSV to JSON converter for Sommely</h1>
 
   <div class = "row">
@@ -42,7 +53,7 @@
           Food pairing: <input type="text" name="foodPairing" placeholder="foodPairing"><br><br>
           <!--fields to delete  -->
           <label class = "btn btn-default center-block" >
-            Convert <input type="submit" style="display:none">
+            Convert <input type="submit" style="display:none" onclick="unhide(this,'downloadfile')">
           </label>
         </form>
       </div>
@@ -50,15 +61,25 @@
   </div>
   <div class = "row">
     <div class = "col-md-12 text-center">
-      <form method="post" action="/download">
-        <input type="submit" value="Download" class = "btn btn-primary button-center">
-      </form>
+      <div class = "hidden" id="downloadfile">
+        <form method="post" action="/download">
+          <input type="submit" value="Download" class = "btn btn-primary button-center">
+        </form>
+      </div>
     </div>
   </div>
 </div>
 
 <style>
-.button-center{
-  text-align: center;
-}
+  .button-center{
+    text-align: center;
+  }
+
+  .hidden{
+    display:none;
+  }
+
+  .unhidden{
+    display:block;
+  }
 </style>
