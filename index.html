@@ -19,7 +19,7 @@
         <form action="/upload" method="POST" enctype="multipart/form-data">
           <h3>Select a file to upload:</h3>
           <label class="btn btn-default center-block">
-            Upload <input type="file" style="display: none;" name = "file" onchange="get_filename(this);">
+            Upload <input type="file" style="display: none;" name = "file" onchange="get_filename(this);" onclick="unhide(this,'convertbutton');">
           </label>
           <h4 id="filename"></h4>
           <script>
@@ -52,9 +52,11 @@
           Recently added: <input type="text" name="recentlyAdded" placeholder="recentlyAdded"><br><br>
           Food pairing: <input type="text" name="foodPairing" placeholder="foodPairing"><br><br>
           <!--fields to delete  -->
-          <label class = "btn btn-default center-block" >
-            Convert <input type="submit" style="display:none" onclick="unhide(this,'downloadfile')">
-          </label>
+          <div class="hidden" id="convertbutton">
+            <label class = "btn btn-default center-block" >
+              Convert <input type="submit" style="display:none" onclick="unhide(this,'downloadfile')">
+            </label>
+          </div>
         </form>
       </div>
     </div>
