@@ -426,7 +426,7 @@ switch (whichInterface) {
             }
 
 						converter.on("end_parsed", function(jsonArray) {
-								fs.writeFile("files/download",JSON.stringify(jsonArray), function(err){
+								fs.writeFile("files/download",JSON.stringify(jsonArray,null,"\t"), function(err){
 									if(err) {
 										console.log(err);
 									};
