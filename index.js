@@ -48,6 +48,8 @@ var oldSpecial = false;
 var oldRecentlyAdded = false;
 var oldFoodPairing = "";
 
+var fieldsToDelete = [];
+
 var missing = {};
 missing["colorMissing"];
 missing ["sizeMissing"];
@@ -283,8 +285,11 @@ converter.transform = function(json, row, index) {
     delete json[oldSpecial];
     delete json[oldRecentlyAdded];
     delete json[oldFoodPairing];
-    delete json.WS;
-    delete json.WSWeb;
+    for (var index = 0; index < fieldsToDelete.length; index++){
+      delete json[fieldsToDelete[index]];
+    }
+    // delete json.WS;
+    // delete json.WSWeb;
 };
 
 switch (whichInterface) {
@@ -423,6 +428,13 @@ switch (whichInterface) {
             if (req.body.foodPairing != ""){
               oldFoodPairing = req.body.foodPairing;
               // console.log("food pairing mapped");
+            }
+            if (req.body.delete != ""){
+              var elementsToDelete = req.body.delete.split(",");
+              for (var index = 0; index < elementsToDelete.length; index ++){
+                var newElement = elementsToDelete[index].trim();
+                fieldsToDelete.push(newElement);
+              }
             }
 
 						converter.on("end_parsed", function(jsonArray) {
