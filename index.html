@@ -10,28 +10,33 @@
           <label class="btn btn-default center-block">
             Upload <input type="file" style="display: none;" name = "file">
           </label>
+          <script>
+            document.getElementById('file').onchange = function () {
+              alert('Selected file: ' + this.value);
+            };
+          </script>
           <h3>Variable mappings:</h3>
           Type the CSV header that matches the given attribute -- leave the box blank if the attribute isn't part of the CSV.<br><br>
-          Wine name: <input type="text" name="name"><br><br>
-          Wine color: <input type="text" name="color"><br><br>
-          Wine price: <input type="text" name="price"><br><br>
-          Bottle volume: <input type="text" name="size"><br><br>
-          Vintage: <input type="text" name="vintage"><br><br>
-          Wine varietal: <input type="text" name="varietal"><br><br>
-          Quantity: <input type="text" name="quantity"><br><br>
-          Region: <input type="text" name="region"><br><br>
-          Winery: <input type="text" name="winery"><br><br>
-          Year to drink by: <input type="text" name="drinkBy"><br><br>
-          Alcohol by volume: <input type="text" name="abv"><br><br>
-          Image path: <input type="text" name="img_path"><br><br>
-          External image path: <input type="text" name="external_img_path"><br><br>
-          Rating value: <input type="text" name="ratingValue"><br><br>
-          Rating author: <input type="text" name="ratingAuthor"><br><br>
-          Rating text: <input type="text" name="ratingReview"><br><br>
-          Ready now: <input type="text" name="ready"><br><br>
-          Special wine: <input type="text" name="special"><br><br>
-          Recently added: <input type="text" name="recentlyAdded"><br><br>
-          Food pairing: <input type="text" name="foodPairing"><br><br>
+          Wine name: <input type="text" name="name" placeholder="name"><br><br>
+          Wine color: <input type="text" name="color" placeholder="color"><br><br>
+          Wine price: <input type="text" name="price" placeholder="price"><br><br>
+          Bottle volume: <input type="text" name="size" placeholder="size"><br><br>
+          Vintage: <input type="text" name="vintage" placeholder="vintage"><br><br>
+          Wine varietal: <input type="text" name="varietal" placeholder="varietal"><br><br>
+          Quantity: <input type="text" name="quantity" placeholder="quantity"><br><br>
+          Region: <input type="text" name="region" placeholder="region"><br><br>
+          Winery: <input type="text" name="winery" placeholder="winery"><br><br>
+          Year to drink by: <input type="text" name="drinkBy" placeholder="drinkBy"><br><br>
+          Alcohol by volume: <input type="text" name="abv" placeholder="abv"><br><br>
+          Image path: <input type="text" name="img_path" placeholder="img_path"><br><br>
+          External image path: <input type="text" name="external_img_path" placeholder="external_img_path"><br><br>
+          Rating value: <input type="text" name="ratingValue" placeholder="ratingValue"><br><br>
+          Rating author: <input type="text" name="ratingAuthor" placeholder="ratingAuthor"><br><br>
+          Rating text: <input type="text" name="ratingReview" placeholder="ratingReview"><br><br>
+          Ready now: <input type="text" name="ready" placeholder="ready"><br><br>
+          Special wine: <input type="text" name="special" placeholder="special"><br><br>
+          Recently added: <input type="text" name="recentlyAdded" placeholder="recentlyAdded"><br><br>
+          Food pairing: <input type="text" name="foodPairing" placeholder="foodPairing"><br><br>
           <!--fields to delete  -->
           <label class = "btn btn-default center-block" >
             Convert <input type="submit" style="display:none">
