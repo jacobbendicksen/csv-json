@@ -8,12 +8,15 @@
         <form action="/upload" method="POST" enctype="multipart/form-data">
           <h3>Select a file to upload:</h3>
           <label class="btn btn-default center-block">
-            Upload <input type="file" style="display: none;" name = "file">
+            Upload <input type="file" style="display: none;" name = "file" onchange="get_filename(this);">
           </label>
+          <h4 id="filename"></h4>
           <script>
-            document.getElementById('file').onchange = function () {
-              alert('Selected file: ' + this.value);
-            };
+          function get_filename(obj) {
+            var value = obj.value.split(/[\/\\]/).pop();
+            //alert(value);
+            document.getElementById("filename").innerHTML = "File: " + value;
+          }
           </script>
           <h3>Variable mappings:</h3>
           Type the CSV header that matches the given attribute -- leave the box blank if the attribute isn't part of the CSV.<br><br>
